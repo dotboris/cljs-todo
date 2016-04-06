@@ -2,10 +2,25 @@
 
 (enable-console-print!)
 
-;; define your app data so that it doesn't get over-written on reload
-(defonce app-state (atom {:text "Hello world!"}))
+(defonce *count* (atom 5))
+
+(defn do-thing []
+  (println "did a thing")
+  (this-as js-this
+    (let [$this (js/$ js-this)
+          $item (.parent $this ".item")
+          $count (js/$ ".todo .count")]
+      (if (not (.hasClass $item "done"))
+        (do
+          (.addClass $item "done")
+          (.addClass $this "disabled")
+          (swap! *count* dec)
+          (.html $count @*count*))))))
+
+(defn set-callbacks! []
+  "set the page callbacks"
+  (.click (js/$ ".todo .item button") do-thing))
+
+(set-callbacks!)
 
 (defn on-js-reload [])
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ;; (swap! app-state update-in [:__figwheel_counter] inc)

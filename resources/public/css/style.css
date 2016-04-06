@@ -1,2 +1,7 @@
-/* some style */
+.todo .count {
+  font-weight: bold;
+}
 
+.todo .item.done {
+  text-decoration: line-through;
+}
