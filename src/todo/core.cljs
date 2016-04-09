@@ -10,7 +10,7 @@
 ;; dom elements we're playing with
 (def todo-elem (dom/getElementByClass "todo"))
 (def item-button-elems
-  (mapcat #(array-seq (dom/getElementsByTagNameAndClass "button"))
+  (mapcat #(array-seq (dom/getElementsByTagNameAndClass "button" nil %))
           (array-seq (dom/getElementsByClass "item"))))
 (def counter-elem (dom/getElementByClass "count"))
 
