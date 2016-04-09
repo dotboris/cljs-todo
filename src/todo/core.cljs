@@ -1,4 +1,5 @@
-(ns todo.core)
+(ns todo.core
+  (:require [cljsjs.jquery]))
 
 (enable-console-print!)
 
