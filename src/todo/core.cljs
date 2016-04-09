@@ -1,27 +1,35 @@
 (ns todo.core
-  (:require [cljsjs.jquery]))
+  (:require [goog.dom :as dom]
+            [goog.dom.classes :as classes]
+            [goog.events :as events]))
 
 (enable-console-print!)
 
 (defonce *count* (atom 5))
 
+;; dom elements we're playing with
+(def todo-elem (dom/getElementByClass "todo"))
+(def item-button-elems
+  (mapcat #(array-seq (dom/getElementsByTagNameAndClass "button"))
+          (array-seq (dom/getElementsByClass "item"))))
+(def counter-elem (dom/getElementByClass "count"))
+
 (defn do-thing []
-  (println "did a thing")
-  (this-as js-this
-    (let [$this (js/$ js-this)
-          $item (.parent $this ".item")
-          $count (js/$ ".todo .count")]
-      (if (not (.hasClass $item "done"))
-        (do
-          (.addClass $item "done")
-          (.addClass $this "disabled")
-          (swap! *count* dec)
-          (.html $count @*count*))))))
+  (this-as self
+    (println "did a different thing")
+    (let [item-elem (dom/getAncestorByTagNameAndClass self nil "item")]
+      (do
+        (classes/enable item-elem "done" true)
+        (classes/enable self "disabled" true)
+        (swap! *count* dec)
+        (dom/setTextContent counter-elem @*count*)))))
 
-(defn set-callbacks! []
-  "set the page callbacks"
-  (.click (js/$ ".todo .item button") do-thing))
+(defn set-events! []
+  (doseq [button item-button-elems]
+    (do
+      (events/removeAll button "click")
+      (events/listenOnce button "click" do-thing))))
 
-(set-callbacks!)
+(def on-js-reload set-events!)
 
-(defn on-js-reload [])
+(set-events!)
