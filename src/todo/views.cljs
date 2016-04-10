@@ -4,4 +4,5 @@
 
 (defn hello-world []
   (om/component
-    (dom/h1 nil "Hello World!")))
+    (dom/div #js {:className "container"}
+      (dom/h1 nil "Hello World!"))))
