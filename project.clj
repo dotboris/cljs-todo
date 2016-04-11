@@ -14,11 +14,15 @@
                  [org.omcljs/om "0.9.0"]]
 
   :plugins [[lein-figwheel "0.5.2"]
-            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]]
+            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
+            [lein-doo "0.1.6"]]
 
   :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
+
+  :doo {:paths {:karma "./node_modules/karma-cli/bin/karma"}
+        :build "test"}
 
   :cljsbuild {:builds
               [{:id "dev"
@@ -40,7 +44,13 @@
                 :compiler {:output-to "resources/public/js/compiled/todo.js"
                            :main todo.core
                            :optimizations :advanced
-                           :pretty-print false}}]}
+                           :pretty-print false}}
+
+               {:id "test"
+                :source-paths ["src" "test"]
+                :compiler {:output-to "resources/public/js/compiled/todo-test.js"
+                           :main todo.test
+                           :optimizations :none}}]}
 
   :figwheel {;; watch and update CSS
              :css-dirs ["resources/public/css"]})

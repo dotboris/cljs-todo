@@ -1,0 +1,12 @@
+{
+  "name": "cljs-todo",
+  "version": "0.0.1",
+  "description": "Dev dependencies for cljs-todo. This is not a real npm/node project. If it's on npm, something is wrong.",
+  "dependencies": {},
+  "devDependencies": {
+    "karma": "^0.13.22",
+    "karma-cli": "^0.1.2",
+    "karma-cljs-test": "^0.1.0"
+  },
+  "private": true
+}
