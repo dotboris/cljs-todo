@@ -21,8 +21,8 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :doo {:paths {:karma "./node_modules/karma-cli/bin/karma"}
-        :build "test"}
+  :doo {:build "test"
+        :paths {:phantom "./node_modules/phantomjs-prebuilt/bin/phantomjs"}}
 
   :cljsbuild {:builds
               [{:id "dev"
@@ -48,8 +48,9 @@
 
                {:id "test"
                 :source-paths ["src" "test"]
-                :compiler {:output-to "resources/public/js/compiled/todo-test.js"
-                           :main todo.test
+                :compiler {:main todo.test
+                           :output-to "resources/public/js/compiled/todo-test.js"
+                           :output-dir "resources/public/js/compiled/test"
                            :optimizations :none}}]}
 
   :figwheel {;; watch and update CSS
