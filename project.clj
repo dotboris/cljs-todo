@@ -28,6 +28,7 @@
   :cljsbuild {:builds
               [{:id "dev"
                 :source-paths ["src"]
+                :figwheel true
                 :compiler {:main todo.core
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/todo.js"
