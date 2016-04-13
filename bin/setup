@@ -1,17 +1,10 @@
 #!/bin/bash
-
-assert_command() {
-  command -v "$1" > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    echo "[  OK  ] Checking for '$1' command"
-  else
-    echo "[ FAIL ] Checking for '$1' command"
-  fi
-}
-
-assert_command lein
-assert_command npm
-
 cd "$(dirname $0)/.." || { echo 'What!?'; exit 1; }
 
-npm install
+. bin/utils.sh
+
+assert_commands lein npm
+
+npm install \
+  && echo_success "Installed npm dependencies" \
+  || echo_failure "Failed to install npm dependencies"
