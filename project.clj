@@ -17,9 +17,10 @@
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
             [lein-doo "0.1.6"]]
 
-  :source-paths ["src"]
+  :source-paths ["src" "test"]
 
-  :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
+  :clean-targets ^{:protect false} ["resources/public/js/compiled"
+                                    "target" "out"]
 
   :doo {:build "test"
         :paths {:phantom "./node_modules/phantomjs-prebuilt/bin/phantomjs"}}
@@ -27,18 +28,12 @@
   :cljsbuild {:builds
               [{:id "dev"
                 :source-paths ["src"]
-
-                ;; If no code is to be run, set :figwheel true for continued automagical reloading
-                :figwheel {:on-jsload "todo.core/on-js-reload"}
-
                 :compiler {:main todo.core
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/todo.js"
                            :output-dir "resources/public/js/compiled/out"
                            :source-map-timestamp true}}
-               ;; This next build is an compressed minified build for
-               ;; production. You can build this with:
-               ;; lein cljsbuild once min
+
                {:id "min"
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/todo.js"
@@ -49,8 +44,8 @@
                {:id "test"
                 :source-paths ["src" "test"]
                 :compiler {:main todo.test
-                           :output-to "resources/public/js/compiled/todo-test.js"
-                           :output-dir "resources/public/js/compiled/test"
+                           :output-to "out/test/todo.js"
+                           :output-dir "out/test"
                            :optimizations :none}}]}
 
   :figwheel {;; watch and update CSS
