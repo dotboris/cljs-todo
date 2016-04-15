@@ -12,5 +12,8 @@
                                   (make-item "Figure out how to use cljs with electron")
                                   (make-item "Anything else?")]}))
 
+(defn text [item]
+  (get item :text))
+
 (defn done? [item]
   (get item :done))

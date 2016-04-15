@@ -12,3 +12,6 @@
 (deftest done?
   (is (s/done? {:done true}))
   (is (not (s/done? {:done false}))))
+
+(deftest text
+  (is (= "Do a thing!" (s/text (s/make-item "Do a thing!")))))
