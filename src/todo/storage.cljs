@@ -9,7 +9,8 @@
                                   (make-item "or reagent")
                                   (make-item "Find something cool to build")
                                   (make-item "Build that thing")
-                                  (make-item "Figure out how to use cljs with electron")]}))
+                                  (make-item "Figure out how to use cljs with electron")
+                                  (make-item "Anything else?")]}))
 
 (defn done? [item]
   (get item :done))
