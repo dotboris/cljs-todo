@@ -5,8 +5,8 @@
   ([text done?] {:done done? :text text}))
 
 (def original-list
-  {:items [(make-item "Learn ClojureScript")
-           (make-item "Learn om")
+  {:items [(make-item "Learn ClojureScript" true)
+           (make-item "Learn om" true)
            (make-item "or reagent")
            (make-item "Find something cool to build")
            (make-item "Build that thing")

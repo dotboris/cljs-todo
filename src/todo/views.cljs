@@ -5,7 +5,10 @@
 
 (defn todo-item [item owner]
   (om/component
-    (dom/li (when (s/done? item) #js {:className "done"})
+    (dom/li
+      (if (s/done? item)
+        #js {:className "item done"}
+        #js {:className "item"})
       (s/text item))))
 
 (defn counter [list owner]
@@ -18,7 +21,7 @@
 
 (defn todo-app [list owner]
   (om/component
-    (dom/div #js {:className "container"}
+    (dom/div #js {:className "container todo"}
       (dom/h1 nil "Todo")
       (om/build counter list)
       (dom/ul nil
