@@ -5,11 +5,11 @@
 
 (defn todo-item [item owner]
   (om/component
-    (dom/li
-      (if (s/done? item)
-        #js {:className "item done"}
-        #js {:className "item"})
-      (s/text item))))
+    (let [class (if (s/done? item) "item done" "item")]
+      (dom/li
+        #js {:className class
+             :onClick (fn [_] (println (str "clicked on " (s/text item))))}
+        (s/text item)))))
 
 (defn counter [list owner]
   (om/component
