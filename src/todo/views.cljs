@@ -8,11 +8,6 @@
     (dom/li (when (s/done? item) #js {:className "done"})
       (s/text item))))
 
-(defn todo-list [list owner]
-  (om/component
-    (dom/ul nil
-      (om/build-all todo-item (:items list)))))
-
 (defn counter [list owner]
   (om/component
     (dom/p nil
@@ -26,4 +21,5 @@
     (dom/div #js {:className "container"}
       (dom/h1 nil "Todo")
       (om/build counter list)
-      (om/build todo-list list))))
+      (dom/ul nil
+        (om/build-all todo-item (:items list))))))
