@@ -12,7 +12,9 @@
   [:p
     "You have "
     [:span.count
-      (count (filter (comp not s/done?) (:items list)))]
+      (->> (:items list)
+           (filter (comp not s/done?))
+           count)]
     " things left to do. Get on with it!"])
 
 (defn todo-app [list]
