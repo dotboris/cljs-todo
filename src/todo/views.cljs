@@ -1,28 +1,22 @@
 (ns todo.views
-  (:require [om.core :as om]
-            [om.dom :as dom]
+  (:require [reagent.core :as r]
             [todo.storage :as s]))
 
 (defn todo-item [item owner]
-  (om/component
-    (let [class (if (s/done? item) "item done" "item")]
-      (dom/li
-        #js {:className class
-             :onClick (fn [_] (println (str "clicked on " (s/text item))))}
-        (s/text item)))))
+  (let [class (if (s/done? item) "item done" "item")]
+    [:li {:class class
+          :on-click (fn [_] (println (str "clicked on " (s/text item))))}
+      (s/text item)]))
 
-(defn counter [list owner]
-  (om/component
-    (dom/p nil
-      "You have "
-      (dom/span #js {:className "count"}
-        (count (filter (comp not s/done?) (:items list))))
-      " things left to do. Get on with it!")))
+(defn counter [list]
+  [:p
+    "You have "
+    [:span {:class "count"}
+      (count (filter (comp not s/done?) (:items list)))]
+    " things left to do. Get on with it!"])
 
-(defn todo-app [list owner]
-  (om/component
-    (dom/div #js {:className "container todo"}
-      (dom/h1 nil "Todo")
-      (om/build counter list)
-      (dom/ul nil
-        (om/build-all todo-item (:items list))))))
+(defn todo-app [list]
+  [:div {:className "container todo"}
+    [:h1 "Todo"]
+    [counter list]
+    [:ul (for [item (:items list)] [todo-item item])]])

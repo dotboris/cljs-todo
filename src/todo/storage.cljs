@@ -1,4 +1,5 @@
-(ns todo.storage)
+(ns todo.storage
+  (:require [reagent.core :as r]))
 
 (defn make-item
   ([text] {:done false :text text})
@@ -13,7 +14,7 @@
            (make-item "Figure out how to use cljs with electron")
            (make-item "Anything else?")]})
 
-(defonce todo-list (atom original-list))
+(defonce todo-list (r/atom original-list))
 
 (defn text [item]
   (get item :text))
