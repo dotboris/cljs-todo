@@ -2,11 +2,15 @@
   (:require [reagent.core :as r]
             [todo.storage :as s]))
 
+(defn todo-button [item]
+  (if (s/done? item)
+    [:i.glyphicon.glyphicon-ok]
+    [:i.glyphicon.glyphicon-unchecked]))
+
 (defn todo-item [item]
   (let [class (if (s/done? item) "item done" "item")]
-    [:li {:class class
-          :on-click #(println (str "clicked on " (s/text item)))}
-      (s/text item)]))
+    [:li.item {:on-click #(println (str "clicked on " (s/text item)))}
+      [todo-button item] " " (s/text item)]))
 
 (defn counter [list]
   [:p
