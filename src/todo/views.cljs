@@ -8,9 +8,8 @@
     [:i.glyphicon.glyphicon-unchecked]))
 
 (defn todo-item [item]
-  (let [class (if (s/done? item) "item done" "item")]
-    [:li.item {:on-click #(println (str "clicked on " (s/text item)))}
-      [todo-button item] " " (s/text item)]))
+  [:li.item {:on-click #(println (str "clicked on " (s/text item)))}
+    [todo-button item] " " (s/text item)])
 
 (defn counter [list]
   [:p
@@ -21,9 +20,9 @@
            count)]
     " things left to do. Get on with it!"])
 
-(defn todo-app [list]
+(defn todo-app []
   [:div.container.todo
     [:h1 "Todo"]
-    [counter list]
-    [:ul (for [item (:items list)]
+    [counter @s/todo-list]
+    [:ul (for [item (:items @s/todo-list)]
             ^{:key item} [todo-item item])]])
