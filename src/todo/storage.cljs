@@ -25,4 +25,4 @@
   (get item :done))
 
 (defn toggle-done [item]
-  (assoc item :done (not (get item :done))))
+  (update-in item [:done] not))
