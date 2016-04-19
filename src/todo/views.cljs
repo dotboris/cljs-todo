@@ -16,6 +16,7 @@
     "You have "
     [:span.count
       (->> (:items list)
+           vals
            (filter (comp not s/done?))
            count)]
     " things left to do. Get on with it!"])
