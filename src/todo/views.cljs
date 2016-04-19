@@ -8,7 +8,7 @@
     [:i.glyphicon.glyphicon-unchecked]))
 
 (defn todo-item [item]
-  [:li.item {:on-click #(println (str "clicked on " (s/text item)))}
+  [:li.item {:on-click #(s/toggle! (:id item))}
     [todo-button item] " " (s/text item)])
 
 (defn counter [list]
@@ -24,5 +24,5 @@
   [:div.container.todo
     [:h1 "Todo"]
     [counter @s/todo-list]
-    [:ul (for [item (:items @s/todo-list)]
-            ^{:key item} [todo-item item])]])
+    [:ul (for [[id item] (:items @s/todo-list)]
+            ^{:key id} [todo-item item])]])
