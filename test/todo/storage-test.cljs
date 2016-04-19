@@ -6,14 +6,13 @@
   (is (not (empty? (get @s/todo-list :items)))))
 
 (deftest make-item
-  (testing "1 arg"
+  (testing "no keys"
     (is (not (s/done? (s/make-item "foobar"))))
-    (is (= "Do a thing" (s/text (s/make-item "Do a thing")))))
-  (testing "2 args"
-    (is (s/done? (s/make-item "foo" true)))
-    (is (not (s/done? (s/make-item "foo" false))))
-    (is (= "stuff" (s/text (s/make-item "stuff" true))))
-    (is (= "stuff" (s/text (s/make-item "stuff" false))))))
+    (is (= "Do a thing" (s/text (s/make-item "Do a thing"))))
+    (is (:id (s/make-item "whatever"))))
+  (testing ":done key"
+    (is (s/done? (s/make-item "foo" :done true)))
+    (is (not (s/done? (s/make-item "foo" :done false))))))
 
 (deftest done?
   (is (s/done? {:done true}))
@@ -23,7 +22,7 @@
   (is (= "Do a thing!" (s/text (s/make-item "Do a thing!")))))
 
 (deftest toggle-done
-  (let [done (s/make-item "something" true)
-        not-done (s/make-item "something else" false)]
+  (let [done (s/make-item "something" :done true)
+        not-done (s/make-item "something else" :done false)]
     (is (s/done? (s/toggle-done not-done)))
     (is (not (s/done? (s/toggle-done done))))))

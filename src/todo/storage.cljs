@@ -1,13 +1,15 @@
 (ns todo.storage
   (:require [reagent.core :as r]))
 
-(defn make-item
-  ([text] {:done false :text text})
-  ([text done?] {:done done? :text text}))
+(defonce id-count (atom 0))
+
+(defn make-item [text & {:keys [done]}]
+  (let [id (swap! id-count inc)]
+    {:done done :text text :id id}))
 
 (def original-list
-  {:items [(make-item "Learn ClojureScript" true)
-           (make-item "Learn om" true)
+  {:items [(make-item "Learn ClojureScript" :done true)
+           (make-item "Learn om" :done true)
            (make-item "or reagent")
            (make-item "Find something cool to build")
            (make-item "Build that thing")
