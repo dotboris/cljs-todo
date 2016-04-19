@@ -26,8 +26,5 @@
 (defn done? [item]
   (get item :done))
 
-(defn toggle-done [item]
-  (update-in item [:done] not))
-
 (defn toggle! [id]
-  (swap! todo-list update-in [:items id] toggle-done))
+  (swap! todo-list update-in [:items id :done] not))

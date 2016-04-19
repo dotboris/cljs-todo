@@ -21,8 +21,14 @@
 (deftest text
   (is (= "Do a thing!" (s/text (s/make-item "Do a thing!")))))
 
-(deftest toggle-done
-  (let [done (s/make-item "something" :done true)
-        not-done (s/make-item "something else" :done false)]
-    (is (s/done? (s/toggle-done not-done)))
-    (is (not (s/done? (s/toggle-done done))))))
+(deftest toggle!
+  (let [done (s/make-item "done" :done true)
+        not-done (s/make-item "not-done" :done false)]
+    (do (swap! s/todo-list update-in [:items] empty)
+        (swap! s/todo-list update-in [:items] assoc 1 done)
+        (s/toggle! 1)
+        (is (not (s/done? (get-in @s/todo-list [:items 1])))))
+    (do (swap! s/todo-list update-in [:items] empty)
+        (swap! s/todo-list update-in [:items] assoc 1 not-done)
+        (s/toggle! 1)
+        (is (s/done? (get-in @s/todo-list [:items 1]))))))
