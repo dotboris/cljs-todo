@@ -28,3 +28,7 @@
 
 (defn toggle! [id]
   (swap! todo-list update-in [:items id :done] not))
+
+(defn add-item! [text]
+  (let [item (make-item text)]
+    (swap! todo-list update-in [:items] #(assoc % (:id item) item))))

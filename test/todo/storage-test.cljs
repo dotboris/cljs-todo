@@ -32,3 +32,12 @@
         (swap! s/todo-list update-in [:items] assoc 1 not-done)
         (s/toggle! 1)
         (is (s/done? (get-in @s/todo-list [:items 1]))))))
+
+(deftest add-item!
+  (do (swap! s/todo-list update-in [:items] empty)
+      (s/add-item! "foobar")
+      (let [items (:items @s/todo-list)
+            [id item] (first items)]
+        (is (= 1 (count items)))
+        (is (= "foobar" (:text item)))
+        (is (false? (:done item))))))
