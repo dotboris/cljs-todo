@@ -20,11 +20,8 @@
   (let [pairs (map #(vector (:id %) %) initial-items)]
     (r/atom {:items (into (sorted-map) pairs)})))
 
-(defn text [item]
-  (get item :text))
-
-(defn done? [item]
-  (get item :done))
+(def text #(:text %))
+(def done? #(:done %))
 
 (defn toggle! [id]
   (swap! todo-list update-in [:items id :done] not))
