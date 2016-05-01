@@ -21,9 +21,26 @@
            count)]
     " things left to do. Get on with it!"])
 
+(defn new-item-box []
+  (let [text (r/atom "")]
+    (fn []
+      [:form.form-inline
+        {:on-submit #(do (.preventDefault %)
+                         (s/add-item! @text)
+                         (reset! text ""))}
+        [:div.form-group>input.form-control.new-item-textbox
+          {:type "text"
+           :placeholder "Do something..."
+           :value @text
+           :on-change #(reset! text (-> % .-target .-value))}]
+        " "
+        [:button.btn.btn-primary {:type "submit"}
+          [:i.glyphicon.glyphicon-plus]]])))
+
 (defn todo-app []
   [:div.container.todo
     [:h1 "Todo"]
     [counter @s/todo-list]
-    [:ul (for [[id item] (:items @s/todo-list)]
-            ^{:key id} [todo-item item])]])
+    [new-item-box]
+    [:p>ul (for [[id item] (:items @s/todo-list)]
+             ^{:key id} [todo-item item])]])
