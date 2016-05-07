@@ -29,3 +29,6 @@
 (defn add-item! [text]
   (let [item (make-item text)]
     (swap! todo-list update-in [:items] #(assoc % (:id item) item))))
+
+(defn remove-item! [id]
+  (swap! todo-list update-in [:items] dissoc id))

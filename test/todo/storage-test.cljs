@@ -2,6 +2,9 @@
   (:require [cljs.test :refer-macros [async deftest is testing]]
             [todo.storage :as s]))
 
+(defn clear-items! []
+  (swap! s/todo-list update-in [:items] empty))
+
 (deftest todo-list-atom
   (is (not (empty? (get @s/todo-list :items)))))
 
@@ -34,10 +37,22 @@
         (is (s/done? (get-in @s/todo-list [:items 1]))))))
 
 (deftest add-item!
-  (do (swap! s/todo-list update-in [:items] empty)
+  (do (clear-items!)
       (s/add-item! "foobar")
       (let [items (:items @s/todo-list)
             [id item] (first items)]
         (is (= 1 (count items)))
         (is (= "foobar" (:text item)))
         (is (false? (:done item))))))
+
+(deftest remove-item!
+  (do (clear-items!)
+      (swap! s/todo-list update-in [:items] assoc 1 (s/make-item "fi"))
+      (swap! s/todo-list update-in [:items] assoc 2 (s/make-item "fo"))
+      (swap! s/todo-list update-in [:items] assoc 3 (s/make-item "fum"))
+      (s/remove-item! 2)
+      (let [items (:items @s/todo-list)]
+        (is (= 2 (count items)))
+        (is (get items 1))
+        (is (nil? (get items 2)))
+        (is (get items 3)))))
