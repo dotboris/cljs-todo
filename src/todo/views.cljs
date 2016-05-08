@@ -7,9 +7,16 @@
     [:i.glyphicon.glyphicon-ok]
     [:i.glyphicon.glyphicon-unchecked]))
 
+(defn remove-button [id]
+  [:i.glyphicon.glyphicon-remove
+    {:on-click #(do (.stopPropagation %)
+                    (s/remove-item! id))}])
+
 (defn todo-item [item]
   [:li.item {:on-click #(s/toggle! (:id item))}
-    [todo-button item] " " (s/text item)])
+    [todo-button item]
+    " " (s/text item)
+    [remove-button (:id item)]])
 
 (defn counter [list]
   [:p
