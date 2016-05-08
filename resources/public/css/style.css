@@ -2,6 +2,41 @@
   font-weight: bold;
 }
 
-.todo .item.done {
+.todo .item .text {
+  margin-left: 1em;
+}
+
+.todo .item.done .text {
+  color: grey;
   text-decoration: line-through;
+}
+
+.todo .item {
+  margin-top: 1em;
+  height: 2em;
+  line-height: 2em;
+}
+
+.todo .item .remove {
+  float: right;
+  color: lightgrey;
+}
+
+.todo .item .remove:hover {
+  color: red;
+}
+
+.todo .item .check {
+  margin-left: 0.5em;
+  color: lightgray;
+}
+
+.todo .item .check,
+.todo .item .remove {
+  font-size: 1.3em;
+  vertical-align: middle;
+}
+
+.todo .item.done .check {
+  color: green;
 }
