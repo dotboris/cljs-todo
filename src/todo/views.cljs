@@ -15,14 +15,16 @@
       [remove-button (:id item)]]))
 
 (defn counter [list]
-  [:p
-    "You have "
-    [:span.count
-      (->> (:items list)
-           vals
-           (filter (comp not s/done?))
-           count)]
-    " things left to do. Get on with it!"])
+  (let [count (->> list
+                   :items
+                   vals
+                   (filter (comp not s/done?))
+                   count)]
+    (when-not (= 0 count)
+      [:p
+        "You have "
+        [:span.count count]
+        " things left to do. Get on with it!"])))
 
 (defn new-item-box []
   (let [text (r/atom "")]
