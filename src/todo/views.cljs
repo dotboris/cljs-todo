@@ -1,23 +1,24 @@
 (ns todo.views
   (:require [reagent.core :as r]
-            [todo.storage :as s]))
+            [todo.storage :as s]
+            [todo.core :as t]))
 
 (defn remove-button [id]
   [:span.remove>i.glyphicon.glyphicon-remove
     {:on-click #(do (.stopPropagation %)
-                    (s/remove-item! id))}])
+                    (t/remove-item! id))}])
 
 (defn todo-item [item]
-  (let [tag (if (s/done? item) :div.item.done :div.item)]
-    [tag {:on-click #(s/toggle! (:id item))}
+  (let [tag (if (t/done? item) :div.item.done :div.item)]
+    [tag {:on-click #(t/toggle! (:id item))}
       [:span.check>i.glyphicon.glyphicon-ok]
-      " " [:span.text (s/text item)] " "
+      " " [:span.text (t/text item)] " "
       [remove-button (:id item)]]))
 
 (defn counter [list]
   (let [items (-> list :items vals)
         done-count (->> items
-                        (filter (comp not s/done?))
+                        (filter (comp not t/done?))
                         count)]
     (cond
       (empty? items) [:p "There's nothing here. Try adding something."]
@@ -31,7 +32,7 @@
     (fn []
       [:form.form-inline
         {:on-submit #(do (.preventDefault %)
-                         (s/add-item! @text)
+                         (t/add-item! @text)
                          (reset! text ""))}
         [:div.form-group>input.form-control.new-item-textbox
           {:type "text"

@@ -27,7 +27,7 @@
               [{:id "dev"
                 :source-paths ["src"]
                 :figwheel true
-                :compiler {:main todo.core
+                :compiler {:main todo.app
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/todo.js"
                            :output-dir "resources/public/js/compiled/out"
