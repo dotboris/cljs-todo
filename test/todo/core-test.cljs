@@ -13,8 +13,8 @@
     (is (not (t/done? (t/make-item "foo" :done false))))))
 
 (deftest done?
-  (is (t/done? {:done true}))
-  (is (not (t/done? {:done false}))))
+  (is (t/done? (t/make-item "foobar" :done true)))
+  (is (not (t/done? (t/make-item "foobar" :done false)))))
 
 (deftest text
   (is (= "Do a thing!" (t/text (t/make-item "Do a thing!")))))
