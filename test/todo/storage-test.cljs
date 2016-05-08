@@ -6,7 +6,7 @@
   (swap! s/todo-list update-in [:items] empty))
 
 (deftest todo-list-atom
-  (is (not (empty? (get @s/todo-list :items)))))
+  (is (empty? (get @s/todo-list :items))))
 
 (deftest make-item
   (testing "no keys"
