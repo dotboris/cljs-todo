@@ -60,9 +60,8 @@
   (let [pass (:pass m)
         fail (:fail m)
         error (:error m)
-        fail-error (+ fail error)
         total (+ pass fail error)
-        success? (= 0 fail-error)]
+        success? (= pass total)]
     (println "\nRan" (:test m) "tests containing"
              total "assertions.")
     (println fail "failures," error "errors.")
