@@ -1,8 +1,9 @@
 (ns ^:figwheel-always todo.test
   (:require
-   [cljs.test :as test :include-macros true :refer [report]]
-   [todo.core-test]
-   [todo.storage-test]))
+    [cljs.test :as test :include-macros true :refer [report]]
+    [goog.dom :as dom]
+    [todo.core-test]
+    [todo.storage-test]))
 
 (enable-console-print!)
 
@@ -15,9 +16,23 @@
       (.fillRect ctx 0 0 16 16))
     (.toDataURL cvs)))
 
+(defn nodelist->clj [nodelist]
+  (->> nodelist
+      (.call (-> js/Array .-prototype .-slice))
+      js->clj))
+
+(defonce favicon
+  (let [el (dom/createDom "link" #js {:rel "shortcut icon"
+                                      :type "image/png"
+                                      :href (color-favicon-data-url "#ddd")})
+        head-el (-> (dom/getElementsByTagNameAndClass "head")
+                    nodelist->clj
+                    first)]
+    (do (dom/append head-el el)
+        el)))
+
 (defn change-favicon-to-color [color]
-  (let [icon (.getElementById js/document "favicon")]
-    (set! (.-href icon) (color-favicon-data-url color))))
+  (set! (.-href favicon) (color-favicon-data-url color)))
 
 (defmethod report [::test/default :summary] [m]
   (let [pass (:pass m)
