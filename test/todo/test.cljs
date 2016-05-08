@@ -20,12 +20,20 @@
     (set! (.-href icon) (color-favicon-data-url color))))
 
 (defmethod report [::test/default :summary] [m]
-  (println "\nRan" (:test m) "tests containing"
-           (+ (:pass m) (:fail m) (:error m)) "assertions.")
-  (println (:fail m) "failures," (:error m) "errors.")
-  (if (< 0 (+ (:fail m) (:error m)))
-    (change-favicon-to-color "#d00")
-    (change-favicon-to-color "#0d0")))
+  (let [pass (:pass m)
+        fail (:fail m)
+        error (:error m)
+        fail-error (+ fail error)
+        total (+ pass fail error)
+        success? (= 0 fail-error)]
+    (println "\nRan" (:test m) "tests containing"
+             total "assertions.")
+    (println fail "failures," error "errors.")
+    (set! (.-title js/document)
+          (str (if success? "✓" "✗") " " pass "/" total))
+    (if success?
+      (change-favicon-to-color "#0d0")
+      (change-favicon-to-color "#d00"))))
 
 (test/run-tests 'todo.core-test
                 'todo.storage-test)
