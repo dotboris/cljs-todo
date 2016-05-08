@@ -2,11 +2,9 @@
   (:require [cljs.test :refer-macros [async deftest is testing]]
             [todo.storage :as s]))
 
-(defn clear-items! []
-  (swap! s/todo-list update-in [:items] empty))
-
 (deftest todo-list-atom
-  (is (empty? (get @s/todo-list :items))))
+  (do (s/init!)
+      (is (empty? (get @s/todo-list :items)))))
 
 (deftest make-item
   (testing "no keys"
@@ -27,17 +25,17 @@
 (deftest toggle!
   (let [done (s/make-item "done" :done true)
         not-done (s/make-item "not-done" :done false)]
-    (do (swap! s/todo-list update-in [:items] empty)
+    (do (s/init!)
         (swap! s/todo-list update-in [:items] assoc 1 done)
         (s/toggle! 1)
         (is (not (s/done? (get-in @s/todo-list [:items 1])))))
-    (do (swap! s/todo-list update-in [:items] empty)
+    (do (s/init!)
         (swap! s/todo-list update-in [:items] assoc 1 not-done)
         (s/toggle! 1)
         (is (s/done? (get-in @s/todo-list [:items 1]))))))
 
 (deftest add-item!
-  (do (clear-items!)
+  (do (s/init!)
       (s/add-item! "foobar")
       (let [items (:items @s/todo-list)
             [id item] (first items)]
@@ -46,7 +44,7 @@
         (is (false? (:done item))))))
 
 (deftest remove-item!
-  (do (clear-items!)
+  (do (s/init!)
       (swap! s/todo-list update-in [:items] assoc 1 (s/make-item "fi"))
       (swap! s/todo-list update-in [:items] assoc 2 (s/make-item "fo"))
       (swap! s/todo-list update-in [:items] assoc 3 (s/make-item "fum"))

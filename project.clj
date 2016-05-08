@@ -14,16 +14,14 @@
                  [reagent "0.5.1"]]
 
   :plugins [[lein-figwheel "0.5.2"]
-            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
-            [lein-doo "0.1.6"]]
+            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]]
 
-  :source-paths ["src" "test"]
+  :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
-                                    "target" "out"]
-
-  :doo {:build "test"
-        :paths {:phantom "./node_modules/phantomjs-prebuilt/bin/phantomjs"}}
+                                    "resources/public/js/test"
+                                    "target"
+                                    "out"]
 
   :cljsbuild {:builds
               [{:id "dev"
@@ -35,19 +33,22 @@
                            :output-dir "resources/public/js/compiled/out"
                            :source-map-timestamp true}}
 
+               {:id "test"
+                :source-paths ["src" "test"]
+                :figwheel true
+                :compiler {:main todo.test
+                           :optimizations :none
+                           :asset-path "js/test/out"
+                           :output-to "resources/public/js/test/test.js"
+                           :output-dir "resources/public/js/test/out"
+                           :source-map-timestamp true}}
+
                {:id "min"
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/todo.js"
                            :main todo.core
                            :optimizations :advanced
-                           :pretty-print false}}
-
-               {:id "test"
-                :source-paths ["src" "test"]
-                :compiler {:main todo.test
-                           :output-to "out/test/todo.js"
-                           :output-dir "out/test"
-                           :optimizations :none}}]}
+                           :pretty-print false}}]}
 
   :figwheel {;; watch and update CSS
              :css-dirs ["resources/public/css"]})
