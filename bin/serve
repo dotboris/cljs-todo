@@ -4,4 +4,4 @@ cd "$(dirname $0)/.." || { echo 'What!?'; exit 1; }
 . bin/utils.sh
 
 assert_commands lein rlwrap
-rlwrap lein figwheel
+rlwrap lein figwheel dev test
