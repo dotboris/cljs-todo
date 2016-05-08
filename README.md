@@ -1,31 +1,28 @@
-# ClojureScript TODO app
+ClojureScript TODO app
+======================
 
 Everybody needs another TODO app!
 
 This is my playground for getting started with ClojureScript.
 
-## Setup
+Development
+-----------
 
-To get an interactive development environment run:
+You'll need to have the following tools installed:
 
-    lein figwheel
+- leiningen
+- rlwrap
 
-and open your browser at [localhost:3449](http://localhost:3449/).
-This will auto compile and send all changes to the browser without the
-need to reload. After the compilation process is complete, you will
-get a Browser Connected REPL. An easy way to try it is:
+To code:
 
-    (js/alert "Am I connected?")
+1. Start the magic live coding server
 
-and you should see an alert in the browser window.
+    ```
+    $ bin/serve
+    ```
 
-To clean all compiled files:
+1. Open your browser to http://localhost:3449/ to play with the app
+1. Open your browser to http://localhost:3449/test.html to run the tests
 
-    lein clean
-
-To create a production build run:
-
-    lein do clean, cljsbuild once min
-
-And open your browser in `resources/public/index.html`. You will not
-get live reloading, nor a REPL.
+When you make changes (save in your editor), you code will automatically be
+reloaded and the tests will be run.
