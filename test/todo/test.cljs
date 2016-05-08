@@ -16,6 +16,28 @@
       (.fillRect ctx 0 0 16 16))
     (.toDataURL cvs)))
 
+(defonce _request-notify-rights
+  (when js/Notification
+    (.requestPermission js/Notification)))
+
+(defn results-text [pass total]
+  (let [success? (= pass total)]
+    (str (if success? "✓" "✗") " " pass "/" total)))
+
+(defn notify-results! [pass error fail]
+  (when (and js/Notification
+             (= "granted" (-> js/Notification .-permission)))
+    (let [total (+ pass error fail)
+          success? (= pass total)
+          options #js {:icon (color-favicon-data-url
+                               (if success? "#0d0" "#d00"))
+                       :renotify true
+                       :silent true
+                       :body (str pass " passes, "
+                                  fail " fails, "
+                                  error " errors")}]
+      (js/Notification. (results-text pass total) options))))
+
 (defn nodelist->clj [nodelist]
   (->> nodelist
       (.call (-> js/Array .-prototype .-slice))
@@ -45,10 +67,9 @@
              total "assertions.")
     (println fail "failures," error "errors.")
     (set! (.-title js/document)
-          (str (if success? "✓" "✗") " " pass "/" total))
-    (if success?
-      (change-favicon-to-color "#0d0")
-      (change-favicon-to-color "#d00"))))
+          (results-text pass total))
+    (change-favicon-to-color (if success? "#0d0" "#d00"))
+    (notify-results! pass error fail)))
 
 (test/run-tests 'todo.core-test
                 'todo.storage-test)
