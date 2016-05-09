@@ -4,4 +4,4 @@
 
 (deftest todo-list-atom
   (do (s/init!)
-      (is (empty? (get @s/todo-list :items)))))
+      (is (empty? @s/todo-list))))

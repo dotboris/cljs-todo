@@ -11,11 +11,11 @@
 (def done? #(:done %))
 
 (defn toggle! [id]
-  (swap! s/todo-list update-in [:items id :done] not))
+  (swap! s/todo-list update-in [id :done] not))
 
 (defn add-item! [text]
   (let [item (make-item text)]
-    (swap! s/todo-list update-in [:items] #(assoc % (:id item) item))))
+    (swap! s/todo-list #(assoc % (:id item) item))))
 
 (defn remove-item! [id]
-  (swap! s/todo-list update-in [:items] dissoc id))
+  (swap! s/todo-list dissoc id))

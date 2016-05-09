@@ -23,18 +23,18 @@
   (let [done (t/make-item "done" :done true)
         not-done (t/make-item "not-done" :done false)]
     (do (s/init!)
-        (swap! s/todo-list update-in [:items] assoc 1 done)
+        (swap! s/todo-list assoc 1 done)
         (t/toggle! 1)
-        (is (not (t/done? (get-in @s/todo-list [:items 1])))))
+        (is (false? (t/done? (get @s/todo-list 1)))))
     (do (s/init!)
-        (swap! s/todo-list update-in [:items] assoc 1 not-done)
+        (swap! s/todo-list assoc 1 not-done)
         (t/toggle! 1)
-        (is (t/done? (get-in @s/todo-list [:items 1]))))))
+        (is (true? (t/done? (get @s/todo-list 1)))))))
 
 (deftest add-item!
   (do (s/init!)
       (t/add-item! "foobar")
-      (let [items (:items @s/todo-list)
+      (let [items @s/todo-list
             [id item] (first items)]
         (is (= 1 (count items)))
         (is (= "foobar" (:text item)))
@@ -42,11 +42,11 @@
 
 (deftest remove-item!
   (do (s/init!)
-      (swap! s/todo-list update-in [:items] assoc 1 (t/make-item "fi"))
-      (swap! s/todo-list update-in [:items] assoc 2 (t/make-item "fo"))
-      (swap! s/todo-list update-in [:items] assoc 3 (t/make-item "fum"))
+      (swap! s/todo-list assoc 1 (t/make-item "fi"))
+      (swap! s/todo-list assoc 2 (t/make-item "fo"))
+      (swap! s/todo-list assoc 3 (t/make-item "fum"))
       (t/remove-item! 2)
-      (let [items (:items @s/todo-list)]
+      (let [items @s/todo-list]
         (is (= 2 (count items)))
         (is (get items 1))
         (is (nil? (get items 2)))

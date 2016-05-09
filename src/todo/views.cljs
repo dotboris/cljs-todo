@@ -16,7 +16,7 @@
       [remove-button (:id item)]]))
 
 (defn counter [list]
-  (let [items (-> list :items vals)
+  (let [items (vals list)
         done-count (->> items
                         (filter (comp not t/done?))
                         count)]
@@ -48,5 +48,5 @@
     [:h1 "Todo"]
     [counter @s/todo-list]
     [new-item-box]
-    (for [[id item] (:items @s/todo-list)]
+    (for [[id item] @s/todo-list]
       ^{:key id} [todo-item item])])

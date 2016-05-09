@@ -8,8 +8,7 @@
 
 (defn init! []
   (m/auth-anon root)
-  (reset! todo-list
-    {:items (sorted-map)}))
+  (reset! todo-list (sorted-map)))
 
 (defonce _init
   (do (init!)
