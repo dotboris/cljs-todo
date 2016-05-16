@@ -8,12 +8,12 @@
     {:on-click #(do (.stopPropagation %)
                     (t/remove-item! id))}])
 
-(defn todo-item [item]
+(defn todo-item [item key]
   (let [tag (if (t/done? item) :div.item.done :div.item)]
-    [tag {:on-click #(t/toggle! (:id item))}
+    [tag {:on-click #(t/toggle! key)}
       [:span.check>i.glyphicon.glyphicon-ok]
       " " [:span.text (t/text item)] " "
-      [remove-button (:id item)]]))
+      [remove-button key]]))
 
 (defn counter [list]
   (let [items (vals list)
@@ -48,5 +48,5 @@
     [:h1 "Todo"]
     [counter @s/todo-list]
     [new-item-box]
-    (for [[id item] @s/todo-list]
-      ^{:key id} [todo-item item])])
+    (for [[key item] @s/todo-list]
+      ^{:key key} [todo-item item key])])

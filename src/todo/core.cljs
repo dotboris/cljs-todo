@@ -1,21 +1,22 @@
 (ns todo.core
-  (:require [todo.storage :as s]))
+  (:require [todo.storage :as s]
+            [matchbox.core :as m]))
 
 (defonce id-count (atom 0))
 
 (defn make-item [text & {:keys [done] :or {done false}}]
   (let [id (swap! id-count inc)]
-    {:done done :text text :id id}))
+    {:done done :name text :id id}))
 
-(def text #(:text %))
+(def text #(:name %))
 (def done? #(:done %))
 
 (defn toggle! [id]
-  (swap! s/todo-list update-in [id :done] not))
+  (m/swap-in! s/items-ref [id :done] not))
 
 (defn add-item! [text]
   (let [item (make-item text)]
-    (swap! s/todo-list #(assoc % (:id item) item))))
+    (m/conj! s/items-ref item)))
 
-(defn remove-item! [id]
-  (swap! s/todo-list dissoc id))
+(defn remove-item! [key]
+  (m/dissoc-in! s/items-ref [key]))
