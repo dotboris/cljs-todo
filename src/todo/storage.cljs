@@ -2,7 +2,7 @@
   (:require [reagent.core :as r]
             [matchbox.core :as m]))
 
-(defonce root (m/connect "https://cljstodo-dev.firebaseio.com/"))
+(defonce root (m/connect "https://almighty-todo.firebaseio.com/"))
 
 (defonce todo-list (r/atom nil))
 
