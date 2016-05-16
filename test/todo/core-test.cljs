@@ -7,7 +7,7 @@
   (testing "no keys"
     (is (not (t/done? (t/make-item "foobar"))))
     (is (= "Do a thing" (t/text (t/make-item "Do a thing"))))
-    (is (:id (t/make-item "whatever"))))
+    (is (not (:id (t/make-item "whatever")))))
   (testing ":done key"
     (is (t/done? (t/make-item "foo" :done true)))
     (is (not (t/done? (t/make-item "foo" :done false))))))
